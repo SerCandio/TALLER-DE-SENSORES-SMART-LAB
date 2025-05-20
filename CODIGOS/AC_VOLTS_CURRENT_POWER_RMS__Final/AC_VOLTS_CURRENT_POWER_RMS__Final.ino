@@ -22,8 +22,6 @@ ZMPT101B voltageSensor(A0, 60.0);
 LiquidCrystal_I2C lcd(0x27,16,2);  //
 
 #define TASK1_POLLRATE_MS       10UL  //Tarea de lectura de sensores
-#define TASK2_POLLRATE_MS       300UL  //Tarea de mostrar valores por pantalla
-
 
 #define NUMBER_OF_TASKS         2     //Cantidad de tareas del sistema
 
@@ -145,7 +143,6 @@ void loop() {
     Serial.print(powerRMS, 1);
     Serial.print(" W");
 
-
     if(energyWh>1000.0f)   //Ya se tienen 1kWh?
     {
       Serial.print(" =>ENERGIA [AC]:");
@@ -158,14 +155,7 @@ void loop() {
       Serial.println(" Wh");
     }
 
-
-  }
-
-  //------------------------------------------------------------------------
-
-  if((millis() - timePrev[1])>=TASK2_POLLRATE_MS){
-    timePrev[1]=millis();
-
+    //=======MOSTRAR EN LA PANTALLA LCD16x2==============
     //Imprimir voltage AC RMS en la pantalla
     lcd.setCursor(0, 0);
     lcd.print(voltageRMS, 1);
@@ -187,14 +177,14 @@ void loop() {
     }else{
      lcd.setCursor(1, 1);
      lcd.print("[");
-     lcd.print(energyWh, 3);
+     lcd.print(energyWh, 2);
      lcd.print("Wh");
      lcd.print("]");
-
     }
 
   }
 
+  //-------------------------------------------------------------------------------------------
 
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
